@@ -15,12 +15,12 @@ This literature review provides an overview of recent advances in tabular founda
 
 ## 1. Introduction
 
-Foundation models (FMs) are pretrained on diverse datasets or tasks to acquire capabilities that can transfer to downstream applications. Some FMs can use task-specific examples as context to predict new instances without updating their parameters. This approach has shown promising results for tabular data through the development of tabular foundation models (TabFMs). More recently, TabFMs have been applied to anomaly detection, both through models pretrained specifically for this task and through adaptations of general-purpose TabFMs.
+Foundation models (FMs) are pretrained on diverse datasets to acquire capabilities that can transfer to downstream applications, withut requiring dataset-specific re-training. This approach has shown promising results for tabular data through the development of tabular foundation models (TabFMs). More recently, TabFMs have been applied to anomaly detection, both through models pretrained specifically for this task and through adaptations of general-purpose TabFMs.
 
 Methods differ in their inference-time requirements, particularly in the composition of the reference (context) data and the availability of labels. The context supervision regimes considered here are defined as follows:
 
-- **One-Class (Novelty Detection) (OC):** The context contains only samples known or assumed to be normal, with no anomalies included. The objective is to detect query samples that deviate from the normal patterns represented by this context. This regime, commonly associated with novelty detection, is the primary focus of this review.
-- **Unsupervised (UN):** The context is unlabeled and may contain both normal and anomalous samples; this is also referred to as a potentially contaminated setting.
+- **One-Class (Novelty Detection) (OC):** The context contains only samples known or assumed to be normal, with no anomalies included. The objective is to detect query samples that deviate from the normal patterns represented by this context. This regime is associated with novelty detection, and is the primary focus of this review.
+- **Unsupervised (UN):** The context is unlabeled and may contain both normal and anomalous samples. This is also referred to as a contaminated setting.
 - **Semi-Supervised (SS):** The context contains unlabeled samples and a limited number of labeled anomalies. Since the remaining unlabeled samples are not guaranteed to be normal, the context may be contaminated.
 - **Fully Supervised (FS):** The context contains ground-truth labels for normal and anomalous samples. Anomaly detection can then be formulated as supervised classification, although class imbalance and generalization to unseen anomaly types may remain challenging.
 
@@ -40,7 +40,7 @@ Pretrained methods include foundation models developed specifically for tabular 
 | 2026 | From Zero to Hero: Advancing Zero-Shot Foundation Models for Tabular Outlier Detection      | OutFormer | **OC**              | [ArXiv](https://arxiv.org/abs/2602.03018) | [GitHub](https://github.com/psorus/Outformer)                                             |
 | 2026 | TACTIC for Navigating the Unknown: Tabular Anomaly deteCTion via In-Context inference       | TACTIC-C  | **OC**              | [ArXiv](https://arxiv.org/abs/2603.14171) | [GitHub](https://github.com/gmum/TACTIC)                                                  |
 | 2026 | TACTIC for Navigating the Unknown: Tabular Anomaly deteCTion via In-Context inference       | TACTIC-N  | **OC**, UN          | [ArXiv](https://arxiv.org/abs/2603.14171) | [GitHub](https://github.com/gmum/TACTIC)                                                  |
-| 2026 | ICLAD: In-Context Learning for Unified Tabular Anomaly Detection Across Supervision Regimes | ICLAD     | **OC**, UN, SS      | [ArXiv](https://arxiv.org/abs/2603.19497) | [Hugging Face](https://huggingface.co/jyiwei/iclad) (checkpoints; full code not verified) |
+| 2026 | ICLAD: In-Context Learning for Unified Tabular Anomaly Detection Across Supervision Regimes | ICLAD     | **OC**, UN, SS      | [ArXiv](https://arxiv.org/abs/2603.19497) | [Hugging Face](https://huggingface.co/jyiwei/iclad) (checkpoints; full code not found) |
 
 ### 2.2 Adaptations of TabFMs
 
@@ -57,7 +57,7 @@ These approaches repurpose general-purpose TabFMs, including TabPFN and other pr
 
 ## 3. Datasets
 
-This section summarizes the main benchmark suites used to evaluate tabular novelty and anomaly detection methods and their scale. Ground-truth anomaly labels support evaluation and, where accessible, the simulation of different supervision regimes by selecting clean training subsets, withholding labels, or revealing selected anomaly labels. Simply withholding labels does not make a contaminated dataset suitable for one-class evaluation, and some benchmark partitions reserve test labels for private evaluation.
+This section summarizes the main benchmark suites used to evaluate tabular novelty and anomaly detection methods and their scale. Ground-truth anomaly labels support evaluation and the simulation of different supervision regimes by selecting clean training subsets, withholding labels, or revealing selected anomaly labels. 
 
 | Title                                                                            | Benchmark | # Datasets | Paper                                     | Link                                                 |
 | :------------------------------------------------------------------------------- | :-------- | :--------: | :---------------------------------------- | :--------------------------------------------------- |
@@ -75,8 +75,8 @@ This section summarizes the evaluation benchmarks used in each study and identif
 | Paper                                                                                                 | Method        | Benchmarks Used                                              | Compared Methods from List                                         |
 | :---------------------------------------------------------------------------------------------------- | :------------ | :----------------------------------------------------------- | :----------------------------------------------------------------- |
 | FoMo-0D: A Foundation Model for Zero-shot Tabular Outlier Detection                                   | FoMo-0D       | ADBench (57)                                                 | _None (earliest dedicated model listed)_                           |
-| From Zero to Hero: Advancing Zero-Shot Foundation Models for Tabular Outlier Detection                | OutFormer     | ADBench (57), OddBench (690), OvRBench (756), SynBench (800) | FoMo-0D                                                            |
+| From Zero to Hero: Advancing Zero-Shot Foundation Models for Tabular Outlier Detection                | OutFormer     | ADBench (57), OddBench (690), OvRBench (756), SynBench (800) | FoMo-0D, TabPFN (Adapted for OD)                                                           |
 | TACTIC for Navigating the Unknown: Tabular Anomaly deteCTion via In-Context inference                 | TACTIC        | ADBench (38); synthetic anomaly experiments                  | uTabPFN (TabPFN2.5 extension)                                      |
-| Adapting prior-data fitted networks for tabular anomaly detection                                     | ZEN and FOCUS | ADBench (47)                                                 | uTabPFN (official extension)                                       |
+| Adapting prior-data fitted networks for tabular anomaly detection                                     | ZEN and FOCUS | ADBench (47)                                                 | uTabPFN (official extension) + TabPFN adaptation                                       |
 | TaskBridge: Bridging Unsupervised Tabular Anomaly Detection and In-Context Learning via Virtual Tasks | TASKBRIDGE    | OddBench (790)                                               | FoMo-0D, OutFormer, TACTIC-C, TACTIC-N, uTabPFN (TabPFN extension) |
 | ICLAD: In-Context Learning for Unified Tabular Anomaly Detection Across Supervision Regimes           | ICLAD         | ADBench (57)                                                 | FoMo-0D                                                            |
