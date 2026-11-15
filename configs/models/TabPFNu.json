@@ -1,0 +1,5 @@
+{
+  "python_env": "environments/TabPFNu/.venv",
+  "requirements": "environments/TabPFNu/requirements.txt",
+  "adapter": "src/benchmark/adapters/tabpfnu.py"
+}
