@@ -1,0 +1,3 @@
+[submodule "FoMo-0D"]
+	path = models/FoMo-0D
+	url = git@github.com:A-Chicharito-S/FoMo-0D.git
