@@ -1,11 +1,23 @@
 """ Taken from https://github.com/A-Chicharito-S/FoMo-0D/blob/main/ReadMe.md """
 
+import os
 from pathlib import Path
 import sys
 
 # FoMo and its modified PFN package are bundled sources, not installed packages.
 FOMO_ROOT = Path(__file__).resolve().parents[3] / "models" / "FoMo-0D"
 sys.path.insert(0, str(FOMO_ROOT))
+
+# Configure the model process before importing PyTorch or Hugging Face.
+# Weights are downloaded on first run and cached inside this Python environment.
+environment = Path(sys.prefix)
+os.environ.update(
+    OMP_NUM_THREADS="4",
+    MKL_NUM_THREADS="4",
+    HF_HUB_CACHE=str(environment / "huggingface" / "hub"),
+    HF_XET_CACHE=str(environment / "huggingface" / "xet"),
+    HF_HUB_DISABLE_XET="1",
+)
 
 import torch
 from fomo_hub import FoMo0DHub   # the HuggingFace hub-aware class wrapper for FoMo-0D

@@ -1,0 +1,5 @@
+{
+  "python_env": "environments/FoMo0D/.venv",
+  "setup_script": "environments/FoMo0D/setup.py",
+  "adapter": "src/benchmark/adapters/fomo0d.py"
+}

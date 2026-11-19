@@ -1,6 +1,4 @@
-"""Create environments for the models selected in configs/benchmark.yaml.
-    Only venv + pip supported for now, might include uv/conda later
-"""
+"""Run setup scripts for the models selected in configs/benchmark.yaml."""
 
 import argparse
 import json
@@ -24,16 +22,14 @@ def main():
         config_path = ROOT / "configs" / "models" / f"{model}.json"
         if not config_path.is_file():
             parser.error(f"Model configuration not found: {config_path}")
+
         config = json.loads(config_path.read_text())
-        environment = ROOT / config["python_env"]
-        python = environment / "bin" / "python"
+        setup_script = ROOT / config["setup_script"]
+        if not setup_script.is_file():
+            parser.error(f"Model setup script not found: {setup_script}")
 
-        #create env
-        subprocess.run([sys.executable, "-m", "venv", str(environment)], check=True)
-
-        #install dependencies
         subprocess.run(
-            [str(python), "-m", "pip", "install", "-r", str(ROOT / config["requirements"])],
+            [sys.executable, str(setup_script)],
             cwd=ROOT,
             check=True,
         )
